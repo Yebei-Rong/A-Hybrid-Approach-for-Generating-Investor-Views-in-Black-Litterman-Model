@@ -21,9 +21,9 @@ Firstly, we use the 10-year data {X,Y} to train the prediction model for stock r
 
 ### 2.3 Stage 3: Black-Litterman Model Using Predicted Returns
 Finally, stock return forecasts are investor views for generating portfolio weights in the BL model. During the BL model, 
-..* Risk aversion coefficient is taken as 2.5 which is given by He and Litterman(1999) as world average risk tolerance.
-..* Different from the original paper, we set the coefficient of uncertainty as the volatility of the predicted returns to reflect our confidence in investors ' views becasue the volatility represents the prediction imprecision. And we found that if we follow the same setting of this paper which takes 100% confidence on investors’ views, the optimal weights will be very unstable. 
-..* In addition, τ is taken as 0.01 because the market environment is bullish in 2019, which means investors are confident in the market.
+* Risk aversion coefficient is taken as 2.5 which is given by He and Litterman(1999) as world average risk tolerance.
+* Different from the original paper, we set the coefficient of uncertainty as the volatility of the predicted returns to reflect our confidence in investors ' views becasue the volatility represents the prediction imprecision. And we found that if we follow the same setting of this paper which takes 100% confidence on investors’ views, the optimal weights will be very unstable. 
+* In addition, τ is taken as 0.01 because the market environment is bullish in 2019, which means investors are confident in the market.
 
 ### 2.4 Computations
 We implemented the ARMA-GARCH model in R. Python platform is employed for SVR and Black-Litterman models.
