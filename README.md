@@ -52,7 +52,7 @@ The table below shows the percentage of the hybrid BL returns beats the DJI retu
 
 And the figure below reveals the return comparison for DJI. And the highest return level for the BL model is achieved at 10-days(21.43%) and 20-days(19.2%) holding periods. The DJ Index returns are 21.36%, 18.62% under the same assumption.
 
-![alt text][fig1](https://github.com/Yebei-Rong/A-Hybrid-Approach-for-Generating-Investor-Views-in-Black-Litterman-Model/blob/master/image/fig1.png "Fig. 1")
+![Fig1](/images/fig1.png)
 
 ### 3.3 Statistical Tests on BL Portfolio Returns
 We use t-tests to see whether the differences between the annalized BL return and annualized DJI returns are statistically significant for different holding days. The table below presents that there are significant differences between our annualized hybrid BL returns and annualized DJI returns.
