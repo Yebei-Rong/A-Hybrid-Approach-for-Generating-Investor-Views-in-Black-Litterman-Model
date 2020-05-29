@@ -5,8 +5,6 @@ This is a replication of an academic paper -- *A Hybrid Approach for Generating 
 
 Different from the paper we refer to, we implement this approach by using all the stocks of DJI in a time period from year 2009 to 2018 and validate our results of forecasts of year 2019. For the methodology, we follow the three well known models in the original paper -- ARMA-GARCH, SVR and Black-Litterman. However, before applying the ARMA-GARCH model to stock indicators, we examined carefully of the stationary of each indicator time series. Moreover, although the paper takes the SVR and it shows that the results outperformed the DJI returns. We further analyzed other machine learning methods which are Bayesian, Random Forest, Adaptive Boosting, Decision Tree, KNN, Logistic Regression, GradientBoosting. In conclusion, the BL results reveal better portfolio returns than the DJI return for different holding periods. Meanwhile, we also have some new findings. First, the BL results didn’t show better performance compared with randomly generated and 1/N rule portfolios. Second, we observe that it appears a positive relationship between portfolio returns and holding periods, which means it is better to hold a portfolio for a long time and not to change positions frequently.
 
-More details are covered in the implementation and conclusion sections. For the methodology section, I recommend you to read the original paper, and I will only cover the improvements and further analysis we did here.
-
 ## 2 Implementation
 ### 2.1 Stage 1: Forecasting Indicators with ARMA-GARCH(1,1)
 ARMA-GARCH(1,1) model is used to obtain the daily forecast of 8 common technical indicators of stock for 250 days in (starting from Jan 2019) using the available data from 2009 to 2018 of DJI. Before modelling, we plotted the ACF and PACF figures to choose the proper parameters for ARMA models which is important but not given in the original paper.
@@ -33,11 +31,11 @@ We implemented the ARMA-GARCH model in R. Python platform is employed for SVR an
 Although we calculated the optimal weights for each day, it is unrealistic to trade and change positions every single day. Thus, we take different holding periods 10,20,30,40,60,80 days into consideration.
 
 Our rolling data scheme is explained below:
-⋅⋅* We begin with optimal daily portfolio weight for each of 250 days, which is obtained in stage 3.
-⋅⋅* We will hold the portfolio unchanged from the first day until the end of the holding period. For example, if we invest in the first day’s portfolio and hold it for 10 days, and then invest in the second holding period for 10 days (correspond to 2nd, 3rd,...11th of the test periods). And we calculate the return value for each day. We can get these holding period returns by adding up these daily returns.
-⋅⋅* Taking 10-days rolling window as example, we execute 241 runs and obtain 241 returns for DJI. Then we took the average of these returns values. Last, the average of these returns are compounded and converted into annualized returns for doing comparison between rolling periods and indexes.
-⋅⋅* Based on the 10-days rolling scheme mentioned above, annualized return for 20,30,40,60 and 80 days holding periods are calculated in the same manner. For 20-days holding period, we can get 231 returns.
-⋅⋅* Getting the annualized index return for different rolling window for both markets and our portfolio of the optimal weights given by the BL model.
+* We begin with optimal daily portfolio weight for each of 250 days, which is obtained in stage 3.
+* We will hold the portfolio unchanged from the first day until the end of the holding period. For example, if we invest in the first day’s portfolio and hold it for 10 days, and then invest in the second holding period for 10 days (correspond to 2nd, 3rd,...11th of the test periods). And we calculate the return value for each day. We can get these holding period returns by adding up these daily returns.
+* Taking 10-days rolling window as example, we execute 241 runs and obtain 241 returns for DJI. Then we took the average of these returns values. Last, the average of these returns are compounded and converted into annualized returns for doing comparison between rolling periods and indexes.
+* Based on the 10-days rolling scheme mentioned above, annualized return for 20,30,40,60 and 80 days holding periods are calculated in the same manner. For 20-days holding period, we can get 231 returns.
+* Getting the annualized index return for different rolling window for both markets and our portfolio of the optimal weights given by the BL model.
 
 ### 3.2 Portfolio Returns in DJI
 The table below shows the percentage of the hybrid BL returns beats the DJI returns for different rolling windows. It is pretty clear that this percentage is all greater than 50%, which shows that the hybrid BL returns outperforming the DJI returns.
@@ -53,7 +51,9 @@ The table below shows the percentage of the hybrid BL returns beats the DJI retu
 | Overall         | 1266      | 63.18%                             |
 
 And the figure below reveals the return comparison for DJI. And the highest return level for the BL model is achieved at 10-days(21.43%) and 20-days(19.2%) holding periods. The DJ Index returns are 21.36%, 18.62% under the same assumption.
-#### add figure DJI VS BL
+
+![alt text][fig1]
+[fig1]: https://github.com/Yebei-Rong/A-Hybrid-Approach-for-Generating-Investor-Views-in-Black-Litterman-Model/edit/master/image/fig1.jpg
 
 ### 3.3 Statistical Tests on BL Portfolio Returns
 We use t-tests to see whether the differences between the annalized BL return and annualized DJI returns are statistically significant for different holding days. The table below presents that there are significant differences between our annualized hybrid BL returns and annualized DJI returns.
@@ -66,19 +66,23 @@ We use t-tests to see whether the differences between the annalized BL return an
 | 40              | 14.75               | 1.86     | 0.032**.    | 
 | 60              | 18.84               | 1.93     | 0.027**.    | 
 | 80              | 22.36               | 3.94     | 5.85e-05*** | 
+
 **  significant at 5% 
 *** significant at 1%
 
 ### 3.4 Sharpe Ratios In BL Portfolio Returns
 We test the Sharpe Ratios given by the hybrid BL model compared with the Sharpe Ratios of the DJI, and we can see that the hybrid BL model gets a higher level of Sharpe Ratios than DJI for all different rolling windows. We pick risk free rate to be 0.0252, which is cited from the official website of the United States Department of the treasury.
-#### add figure Sharpe ratio
+
+![alt text][fig2]
+[fig2]: https://github.com/Yebei-Rong/A-Hybrid-Approach-for-Generating-Investor-Views-in-Black-Litterman-Model/edit/master/image/fig2.jpg
+
 We use t-tests to see whether the differences between the BL sharpe ratio and DJI sharpe ratio are significant for different holding days. However, none of the holding periods show significant sharpe ratio difference. In other words, our result will not statistically hold if we do it for another time period.
 
 ## 4 Conlusion
-⋅⋅* The Sharpe ratio of the BL model in our testing period is higher than DJ index in all holding periods, which represents not only the annualized return of BL is higher than the DJ index but also the risk adjusted return is better than DJ index. However, when it comes to the Z-test of sharpe ratios, there is no statistical significance between the sharpe ratio of our model and the one of DJ index.
-⋅⋅* In reality, our model performs the best in the short time horizon because of limitations of the Garch model which is not suitable to predict variance in the long term.
-⋅⋅* For trading daily, BL models cannot beat randomly generated portfolios and equal weighted portfolios. However, BL models can beat equal weighted portfolios under our rolling data scheme.
-⋅⋅* We observe that the annualized average return increases with rolling windows. Thus, holding a portfolio for a relative long time is more profitable than holding it for a short time period or trading daily.
+* The Sharpe ratio of the BL model in our testing period is higher than DJ index in all holding periods, which represents not only the annualized return of BL is higher than the DJ index but also the risk adjusted return is better than DJ index. However, when it comes to the Z-test of sharpe ratios, there is no statistical significance between the sharpe ratio of our model and the one of DJ index.
+* In reality, our model performs the best in the short time horizon because of limitations of the Garch model which is not suitable to predict variance in the long term.
+* For trading daily, BL models cannot beat randomly generated portfolios and equal weighted portfolios. However, BL models can beat equal weighted portfolios under our rolling data scheme.
+* We observe that the annualized average return increases with rolling windows. Thus, holding a portfolio for a relative long time is more profitable than holding it for a short time period or trading daily.
 
 ## 5 New Contribution and Insights
 ### 5.1 Indicator Replacement
@@ -95,7 +99,9 @@ The Sharpe ratio of the Black-Litterman model in our testing period is higher th
 
 ### 5.5 Analysis of Return Using Different Machine Learning Methods to Generate Investor Views
 In addition to the SVR model, we pick other seven machine learning methods to check the difference on which could present a better performance. Those other machine learning methods are: Bayesian, Random Forest, Adaptive Boosting, Decision Tree, KNN, Logistic Regression, GradientBoosting. Then we do comparison between these eight machine learning methods and obtain the graph as following:
-#### add figure other methods
+
+![alt text][fig3]
+[fig3]: https://github.com/Yebei-Rong/A-Hybrid-Approach-for-Generating-Investor-Views-in-Black-Litterman-Model/edit/master/image/fig3.jpg
 
 Based on the result, the optimal weight generated by SVR, Random Forest, and Decision Tree would have better performance than capitalization weight, while the others didn’t. Among those three better methods, SVR has the best outcome. SVM (Support vector machine) is suitable for small samples and feasible for high dimensional problems. It fits a non-linear surface, and avoids overfitting. But SVM is sensitive to missing data and class-outlier, and the results are dependent on the choice of kernel. Compared to the other chosen methods, since we have done data cleansing and class-outlier selection, SVR would generate the best optimal weight.
 
